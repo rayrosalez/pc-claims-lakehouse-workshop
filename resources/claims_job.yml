@@ -1,0 +1,26 @@
+# Job: refresh the pipeline, then validate the gold layer.
+# The schedule is paused automatically in the dev target (development mode).
+
+resources:
+  jobs:
+    claims_job:
+      name: pc_claims_refresh
+      schedule:
+        quartz_cron_expression: "0 0 6 * * ?"
+        timezone_id: America/New_York
+      tasks:
+        - task_key: refresh_pipeline
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.claims_pipeline.id}
+
+        - task_key: validate_gold
+          depends_on:
+            - task_key: refresh_pipeline
+          sql_task:
+            warehouse_id: ${var.warehouse_id}
+            file:
+              path: ../src/validate_gold.sql
+            parameters:
+              catalog: ${var.catalog}
+              silver_schema: ${var.schema_prefix}_silver
+              gold_schema: ${var.schema_prefix}_gold

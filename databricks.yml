@@ -1,0 +1,45 @@
+# Declarative Automation Bundle (formerly Databricks Asset Bundles).
+# One bundle, two targets: `dev` (default) and `prod`.
+#
+# Deploy from the workspace UI (Deployments pane) or the CLI:
+#   databricks bundle validate
+#   databricks bundle deploy -t dev
+#   databricks bundle run claims_job -t dev
+
+bundle:
+  name: pc_claims_workshop
+
+include:
+  - resources/*.yml
+
+variables:
+  catalog:
+    description: Unity Catalog catalog for every workshop schema. Free Edition ships with `workspace`.
+    default: workspace
+  schema_prefix:
+    description: Prefix for the bronze / silver / gold schemas this target writes to.
+    default: lab
+  landing_schema:
+    description: Schema holding the raw landing volume and source-system extracts (shared by dev and prod).
+    default: lab_landing
+  warehouse_id:
+    description: SQL warehouse used by the validate_gold task.
+    lookup:
+      warehouse: Serverless Starter Warehouse
+
+targets:
+  dev:
+    # Development mode prefixes resource names with [dev <user>], pauses schedules,
+    # and marks pipelines as development pipelines.
+    mode: development
+    default: true
+
+  prod:
+    # Production mode. In a real setup this target points at a separate workspace or
+    # catalog, runs as a service principal, and is only deployed by CI.
+    # Free Edition has one workspace, so prod is simulated with lab_prod_* schemas.
+    mode: production
+    variables:
+      schema_prefix: lab_prod
+    workspace:
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}

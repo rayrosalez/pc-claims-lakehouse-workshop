@@ -1,0 +1,41 @@
+# CI/CD for the bundle. Shown in the workshop as a reference pattern:
+#   * pull request -> databricks bundle validate (against prod)
+#   * merge to main -> databricks bundle deploy -t prod
+#
+# Jobs are skipped until you set the repo variable DATABRICKS_HOST and the secrets
+# DATABRICKS_CLIENT_ID / DATABRICKS_CLIENT_SECRET (a service principal with OAuth M2M).
+# In production, prod deploys run as that service principal, never as a person.
+
+name: bundle-ci
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    if: github.event_name == 'pull_request' && vars.DATABRICKS_HOST != ''
+    runs-on: ubuntu-latest
+    env:
+      DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+      DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
+      DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: databricks/setup-cli@main
+      - run: databricks bundle validate -t prod
+
+  deploy:
+    if: github.event_name == 'push' && vars.DATABRICKS_HOST != ''
+    runs-on: ubuntu-latest
+    environment: prod
+    env:
+      DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+      DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
+      DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: databricks/setup-cli@main
+      - run: databricks bundle deploy -t prod

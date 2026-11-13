@@ -1,0 +1,22 @@
+# Serverless Spark Declarative Pipeline: bronze -> silver -> gold.
+# Tables are published to three schemas (<prefix>_bronze / _silver / _gold)
+# using fully qualified names in the SQL files.
+
+resources:
+  pipelines:
+    claims_pipeline:
+      name: pc_claims_pipeline
+      serverless: true
+      catalog: ${var.catalog}
+      schema: ${var.schema_prefix}_silver
+      root_path: ../src/pipeline
+      libraries:
+        - glob:
+            include: ../src/pipeline/**
+      configuration:
+        lab_catalog: ${var.catalog}
+        landing_schema: ${var.landing_schema}
+        bronze_schema: ${var.schema_prefix}_bronze
+        silver_schema: ${var.schema_prefix}_silver
+        gold_schema: ${var.schema_prefix}_gold
+        landing_path: /Volumes/${var.catalog}/${var.landing_schema}/raw
