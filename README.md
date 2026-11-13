@@ -30,7 +30,9 @@ If your network blocks the sign-up or the OTP email, tell the instructor before 
 
 1. **Workspace → your home folder → Create → Git folder.**
 2. Git repository URL: `https://github.com/rayrosalez/pc-claims-lakehouse-workshop` (public, no credentials needed). Click **Create Git folder**.
-3. Click the branch name (`main`) → **Create branch** → `dev-<yourname>`.
+3. *Optional:* the clone is read-only on GitHub (you can edit files in your workspace, but you can't push to this repo).
+   To practice the full branch → commit → push → PR flow, **fork** the repo to your own GitHub account first, clone your fork,
+   and add a GitHub personal access token under **Settings → Linked accounts**. Then click the branch name → **Create branch** → `dev-<yourname>`.
 4. Open `labs/00_setup_generate_data` and click **Run all** (serverless). It takes about a minute. Move on while it runs.
 
 ### Segment 2: Unity Catalog + medallion design (8 min)

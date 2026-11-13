@@ -23,5 +23,5 @@ and in the SELECT (after `p.agency_id`):
   , c.cat_event_code
 ```
 
-Commit, redeploy, and run **Full refresh all** on the pipeline. Rows from `batch_01` and `batch_02` get
+Save (commit + push if you're on your own fork), redeploy, and run **Full refresh all** on the pipeline. Rows from `batch_01` and `batch_02` get
 `NULL`, because the field didn't exist in those files. That's why only **additive, nullable** changes count as non-breaking.
