@@ -47,7 +47,7 @@ Open `labs/01_uc_medallion` and work top to bottom. Fill in the two `____` blank
 ### Segment 3: promote with the pipeline + bundle (12 min)
 
 1. Open `databricks.yml` in your Git folder. Click the **Deployments** (rocket) icon in the left pane.
-2. Target `dev` → **Deploy**. This creates the `[dev <you>] pc_claims_pipeline` pipeline and the `pc_claims_refresh` job.
+2. Target `dev` → **Deploy**. The review step takes up to a minute, then confirm **Deploy**. This creates the `[dev <you>] pc_claims_pipeline` pipeline and the `pc_claims_refresh` job.
 3. In the Deployments pane, run **`pc_claims_refresh`**. Open the pipeline to watch bronze → silver → gold build.
 4. Run `labs/02_land_more_data` with `batch = batch_02`, then run the job again.
 5. In the pipeline, click `claims_validated` and look at the **data quality** metrics: 50 rows dropped at the silver gate, while gold stays clean.

@@ -1,14 +1,16 @@
 # Lab 04 — Ask questions of your gold layer in Genie
 
-## Create the Genie space
+> In the current UI, Genie spaces are called **Genie Agents** (left nav) and **Agents** (inside Genie One).
 
-1. Left nav → **Genie** → **New**.
+## Create the Genie agent
+
+1. Left nav → **Genie Agents** → **New**.
 2. Add these tables from `workspace.lab_gold`:
    - `claims_detail`
    - `claims_loss_summary`
    - `loss_ratio_by_lob_state`
 3. Title: `Claims Loss Analytics`. Warehouse: **Serverless Starter Warehouse**.
-4. Open the space from **Databricks One** (app switcher, top right → **Databricks One**) to see it the way a business user would.
+4. Open it from **Genie One** (app switcher ⋮⋮⋮ at top right → **Genie One** → **Agents**) to see it the way a business user would.
 
 ## Ask these three questions
 
@@ -20,11 +22,11 @@
 
 ## Fix the ambiguous one
 
-Ambiguity is fixed with **context**, not a bigger model. Pick one:
+Ambiguity is fixed with **context**, not a bigger model. Open the agent's configuration and pick one:
 
-- **Instructions** (space → Configure → Instructions):
+- **Instructions**:
   `"Loss ratio" means incurred_losses / written_premium from loss_ratio_by_lob_state. Report it as a percentage. If no line of business is given, return all lines plus a total weighted by written_premium.`
-- **Example SQL** (space → Configure → SQL queries): save a query for "overall loss ratio" so Genie reuses it.
+- **Example SQL queries**: save a query for "overall loss ratio" so Genie reuses it.
 
 Ask question 3 again and compare the answers.
 
