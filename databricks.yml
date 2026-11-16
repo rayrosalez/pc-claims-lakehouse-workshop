@@ -11,6 +11,9 @@ bundle:
 
 include:
   - resources/*.yml
+  # Optional, git-ignored: pins your workspace host for the VS Code extension.
+  # Copy databricks.local.yml.example to databricks.local.yml to use it.
+  - "*.local.yml"
 
 variables:
   catalog:

@@ -1,0 +1,10 @@
+# Local-only bundle settings. Copy to databricks.local.yml (git-ignored) and set your host.
+# The VS Code Databricks extension needs a host on the target; the shared databricks.yml
+# leaves it out because every attendee has a different Free Edition URL.
+targets:
+  dev:
+    workspace:
+      host: https://<your-free-edition-host>.cloud.databricks.com
+  prod:
+    workspace:
+      host: https://<your-free-edition-host>.cloud.databricks.com

@@ -123,6 +123,10 @@ databricks bundle deploy -t dev
 databricks bundle run claims_job -t dev
 ```
 
+**VS Code extension shows "Invalid host for target dev"?** The shared `databricks.yml` doesn't pin a host
+(every attendee has a different one). Copy `databricks.local.yml.example` to `databricks.local.yml`, put your
+workspace URL in it, and reload the window. That file is git-ignored.
+
 Install the **Databricks extension** for VS Code to run files and notebook cells on serverless through
 Databricks Connect. Recommended flow: edit and test locally → push a branch → PR review → CI deploys the bundle.
 
